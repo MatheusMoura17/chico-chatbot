@@ -1,3 +1,4 @@
 # progressive web app
 pwa/node_modules
 pwa/.cache
+pwa/dist
