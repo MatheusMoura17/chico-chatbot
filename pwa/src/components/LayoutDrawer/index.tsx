@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, ReactNode } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Drawer from "@material-ui/core/Drawer";
 import IconButton from "@material-ui/core/IconButton";
@@ -10,10 +10,12 @@ import Typography from "@material-ui/core/Typography";
 import MenuListItems from "./MenuListItems";
 
 import styles from "./LayoutDrawer.scss";
+import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 
 interface ILayoutDrawerProps {
   /** Titulo da página */
   title: string;
+  children: ReactNode;
 }
 
 interface ILayoutDrawerStates {
@@ -31,7 +33,7 @@ export default class LayoutDrawer extends Component<
   };
 
   public render() {
-    const { title } = this.props;
+    const { children, title } = this.props;
     const { openMenu } = this.state;
     return (
       <div>
@@ -62,18 +64,25 @@ export default class LayoutDrawer extends Component<
               keepMounted: true
             }}
           >
-            {/* Cabeçalho do menu com botão close */}
-            <div className={styles.drawerHeader}>
-              <IconButton onClick={this.toggleMenu}>
-                <ChevronLeftIcon />
-              </IconButton>
-            </div>
+            <List>
+              <ListItem onClick={this.toggleMenu} button>
+                <ListItemIcon>
+                  <ChevronLeftIcon />
+                </ListItemIcon>
+                <ListItemText primary="Menu" />
+              </ListItem>
+            </List>
 
             <Divider />
             {/* Items do menu */}
             <MenuListItems />
           </Drawer>
         </nav>
+
+        {/** Conteúdo da página */}
+        <main className={styles.content}>
+          <div>{children}</div>
+        </main>
       </div>
     );
   }
